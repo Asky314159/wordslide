@@ -35,6 +35,7 @@
 - (NSString*)getPoolId:(NSInteger)row;
 - (SlideSet*)getSlideSetForId:(NSString*)setId;
 - (void)addSlideSet:(SlideSet*)slideSet;
+- (void)deleteSlideSet:(NSString*)setId;
 
 @property (readonly) SlideTableDelegate *slidePoolDelegate;
 @property (readonly) SlideTableDelegate *slideShowDelegate;

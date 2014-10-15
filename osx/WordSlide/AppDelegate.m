@@ -108,6 +108,26 @@
     }
 }
 
+- (IBAction)deleteButtonPressed:(id)sender {
+    if(_slidePoolTable.selectedRow!=-1)
+    {
+        NSAlert* confirmDialog=[[NSAlert alloc] init];
+        confirmDialog.messageText=[NSString stringWithFormat:@"Really delete library item '%@'?", [engine getSlideSetForId:[engine getPoolId:_slidePoolTable.selectedRow]].title];
+        confirmDialog.informativeText=@"This operation cannot be undone.";
+        confirmDialog.alertStyle=NSWarningAlertStyle;
+        [confirmDialog addButtonWithTitle:@"Yes"];
+        [confirmDialog addButtonWithTitle:@"No"];
+        [confirmDialog beginSheetModalForWindow:_window completionHandler:^(NSModalResponse returnCode){
+            if(returnCode==NSAlertFirstButtonReturn)
+            {
+                [engine deleteSlideSet:[engine getPoolId:_slidePoolTable.selectedRow]];
+                [_slidePoolTable reloadData];
+                [_slideShowTable reloadData];
+            }
+        }];
+    }
+}
+
 - (void)setEditorFieldsForId:(NSString*)setId
 {
     if(setId.length==0)
@@ -119,6 +139,7 @@
         [editorEngine openSetForEdit:[engine getSlideSetForId:setId]];
     }
     
+    suppressSave=YES;
     _editorTitleField.stringValue=editorEngine.slideTitle;
     _editorBylineField.stringValue=editorEngine.slideByline;
     _editorCopyrightField.stringValue=editorEngine.slideCopyright;

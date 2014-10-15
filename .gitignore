@@ -46,6 +46,9 @@ build/
 *.log
 *.scc
 
+# Don't lose this or Xcode gets real mad
+!osx/WordSlide/WordSlide-Prefix.pch
+
 # Visual C++ cache files
 ipch/
 *.aps

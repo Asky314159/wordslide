@@ -209,6 +209,33 @@
     }
 }
 
+- (void)deleteSlideSet:(NSString *)setId
+{
+    [slideLibrary removeObjectForKey:setId];
+    
+    for (NSInteger x=[slidePoolDelegate getListLength]; x>=0; x--)
+    {
+        SlideSetPlaceholder *placeholder=[slidePoolDelegate getItem:x];
+        if([placeholder.setId isEqualToString:setId])
+        {
+            [slidePoolDelegate removeItem:x];
+        }
+    }
+    
+    for (NSInteger x=[slideShowDelegate getListLength]; x>=0; x--)
+    {
+        SlideSetPlaceholder *placeholder=[slideShowDelegate getItem:x];
+        if([placeholder.setId isEqualToString:setId])
+        {
+            [slideShowDelegate removeItem:x];
+        }
+    }
+    
+    NSString* path=[[WordslideEngine getSlideDataPath] stringByAppendingPathComponent:[setId stringByAppendingPathExtension:@"slx"]];
+    NSError *error;
+    [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
+}
+
 + (NSString*)getSavedDataPath
 {
     NSArray* basePath=NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, TRUE);

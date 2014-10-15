@@ -31,6 +31,7 @@
 - (IBAction)reorderDownButtonPressed:(NSButton *)sender;
 - (IBAction)newButtonPressed:(id)sender;
 - (IBAction)editButtonPressed:(id)sender;
+- (IBAction)deleteButtonPressed:(id)sender;
 - (IBAction)insertBlankButtonPressed:(id)sender;
 - (IBAction)clearButtonPressed:(id)sender;
 @property (unsafe_unretained) IBOutlet NSPanel *editorView;

@@ -190,9 +190,9 @@
 
 - (SlideSet*)getSlideSet
 {
-    openSet.title=[NSString stringWithString:_slideTitle];
-    openSet.byline=[NSString stringWithString:_slideByline];
-    openSet.copyright=[NSString stringWithString:_slideCopyright];
+    openSet.title=[NSMutableString stringWithString:_slideTitle];
+    openSet.byline=[NSMutableString stringWithString:_slideByline];
+    openSet.copyright=[NSMutableString stringWithString:_slideCopyright];
     openSet.chorus=_slideChorus;
     [openSet.texts removeAllObjects];
     [openSet.order removeAllObjects];
