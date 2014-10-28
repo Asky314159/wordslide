@@ -32,5 +32,7 @@
 - (BOOL)unadvanceSlide;
 - (void)goToBeginning;
 - (void)goToEnd;
++ (SlideSet*) decodeJson:(NSData*) data;
++ (NSData*) encodeJson:(SlideSet*) slideSet;
 
 @end

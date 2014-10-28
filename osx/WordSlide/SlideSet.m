@@ -12,10 +12,20 @@
 
 - (id)initEmptySet
 {
+    self=[self initWithId:[SlideSet generateNewSetId]];
+    if(self)
+    {
+        
+    }
+    return self;
+}
+
+- (id)initWithId:(NSString*) setId
+{
     self=[super init];
     if(self)
     {
-        _setId=[[NSMutableString alloc] initWithString:[SlideSet generateNewSetId]];
+        _setId=[[NSMutableString alloc] initWithString:setId];
         _title=[[NSMutableString alloc] init];
         _byline=[[NSMutableString alloc] init];
         _copyright=[[NSMutableString alloc] init];
@@ -195,6 +205,33 @@
 + (NSString*)generateNewSetId
 {
     return [[NSProcessInfo processInfo] globallyUniqueString];
+}
+
++ (SlideSet*) decodeJson:(NSData*) data
+{
+    NSError* error;
+    NSDictionary* jsonDictionary=[NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    SlideSet* ret=[[SlideSet alloc] initWithId:[jsonDictionary objectForKey:@"setId"]];
+    ret.title=[NSMutableString stringWithString:[jsonDictionary objectForKey:@"title"]];
+    ret.byline=[NSMutableString stringWithString:[jsonDictionary objectForKey:@"byline"]];
+    ret.copyright=[NSMutableString stringWithString:[jsonDictionary objectForKey:@"copyright"]];
+    ret.texts=[NSMutableArray arrayWithArray:[jsonDictionary objectForKey:@"texts"]];
+    ret.order=[NSMutableArray arrayWithArray:[jsonDictionary objectForKey:@"order"]];
+    ret.chorus=[[jsonDictionary objectForKey:@"chorus"] intValue];
+    ret.linesperslide=[NSMutableArray arrayWithArray:[jsonDictionary objectForKey:@"linesPerSlide"]];
+    return ret;
+}
+
++ (NSData*) encodeJson:(SlideSet*) slideSet
+{
+    NSDateFormatter* dateFormatter=[[NSDateFormatter alloc] init];
+    dateFormatter.locale=[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+    dateFormatter.timeZone=[NSTimeZone timeZoneForSecondsFromGMT:0];
+    dateFormatter.dateFormat=@"yyyy-MM-dd'T'HH:mm:ssZZZ";
+    NSDictionary* jsonDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:1], @"fileVersion", [dateFormatter stringFromDate:[NSDate date]], @"lastWritten", slideSet.setId, @"setId", slideSet.title, @"title", slideSet.byline, @"byline", slideSet.copyright, @"copyright", slideSet.texts, @"texts", slideSet.order, @"order", [NSNumber numberWithInt:slideSet.chorus], @"chorus", slideSet.linesperslide, @"linesPerSlide", nil];
+    NSError* error;
+    NSData* ret=[NSJSONSerialization dataWithJSONObject:jsonDictionary options:0 error:&error];
+    return ret;
 }
 
 @end

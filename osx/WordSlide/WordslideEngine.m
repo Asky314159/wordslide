@@ -58,8 +58,25 @@
             {
                 @try
                 {
-                SlideSet* newSet=[NSKeyedUnarchiver unarchiveObjectWithFile:[[WordslideEngine getSlideDataPath] stringByAppendingPathComponent:fileString]];
-                [slideLibrary setObject:newSet forKey:newSet.setId];
+                    NSString* filePath=[[WordslideEngine getSlideDataPath] stringByAppendingPathComponent:fileString];
+                    SlideSet* newSet=[NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+                    NSError* error;
+                    [fileManager removeItemAtPath:filePath error:&error];
+                    [self saveSlideSet:newSet];
+                    [slideLibrary setObject:newSet forKey:newSet.setId];
+                }
+                @catch(NSException* e)
+                {
+                    
+                }
+            }
+            else if ([fileString hasSuffix:@".slj"])
+            {
+                @try
+                {
+                    NSData* data=[NSData dataWithContentsOfFile:[[WordslideEngine getSlideDataPath] stringByAppendingPathComponent:fileString]];
+                    SlideSet* newSet=[SlideSet decodeJson:data];
+                    [slideLibrary setObject:newSet forKey:newSet.setId];
                 }
                 @catch(NSException* e)
                 {
@@ -79,8 +96,10 @@
         NSError* error;
         [fileManager createDirectoryAtPath:[WordslideEngine getSlideDataPath] withIntermediateDirectories:TRUE attributes:nil error:&error];
     }
-    NSString* savePath=[[WordslideEngine getSlideDataPath] stringByAppendingPathComponent:[slideSet.setId stringByAppendingPathExtension:@"slx"]];
-    [NSKeyedArchiver archiveRootObject:slideSet toFile:savePath];
+    NSString* savePath=[[WordslideEngine getSlideDataPath] stringByAppendingPathComponent:[slideSet.setId stringByAppendingPathExtension:@"slj"]];
+    NSData* data = [SlideSet encodeJson:slideSet];
+    [data writeToFile:savePath atomically:TRUE];
+    //[NSKeyedArchiver archiveRootObject:slideSet toFile:savePath];
 }
 
 - (void)addRowToShow:(NSInteger)row

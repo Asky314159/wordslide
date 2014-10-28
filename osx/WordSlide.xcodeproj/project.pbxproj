@@ -188,6 +188,11 @@
 			attributes = {
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "Jonathan Ray";
+				TargetAttributes = {
+					ABB10C9D177E7632008734A1 = {
+						DevelopmentTeam = J8SEMX3QUB;
+					};
+				};
 			};
 			buildConfigurationList = ABB10C99177E7632008734A1 /* Build configuration list for PBXProject "WordSlide" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -331,12 +336,15 @@
 		ABB10CBC177E7634008734A1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WordSlide/WordSlide-Prefix.pch";
 				INFOPLIST_FILE = "WordSlide/WordSlide-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -344,12 +352,15 @@
 		ABB10CBD177E7634008734A1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WordSlide/WordSlide-Prefix.pch";
 				INFOPLIST_FILE = "WordSlide/WordSlide-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
