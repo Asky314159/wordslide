@@ -17,6 +17,7 @@
     engine=[[WordslideEngine alloc] initWithStuff];
     [_slidePoolTable setDataSource:engine.slidePoolDelegate];
     [_slidePoolTable setDelegate:engine.slidePoolDelegate];
+    [_slidePoolTable setDoubleAction:@selector(slidePoolDoubleClicked:)];
     [_slideShowTable setDataSource:engine.slideShowDelegate];
     [_slideShowTable setDelegate:engine.slideShowDelegate];
     editorEngine=[[SlideEditorEngine alloc] initEmpty:self];
@@ -49,7 +50,15 @@
     CGDisplayShowCursor(kCGDirectMainDisplay);
 }
 
+- (void)slidePoolDoubleClicked:(id)sender {
+    [self addSelectedSetFromPool];
+}
+
 - (IBAction)addButtonPressed:(NSButton *)sender {
+    [self addSelectedSetFromPool];
+}
+
+- (void)addSelectedSetFromPool {
     if(_slidePoolTable.selectedRow!=-1)
     {
         [engine addRowToShow:_slidePoolTable.selectedRow];

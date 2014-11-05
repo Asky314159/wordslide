@@ -129,6 +129,10 @@
 
 - (BOOL)advanceSlide
 {
+    if(blank)
+    {
+        return FALSE;
+    }
     int maxSubSlide=[self getSubSlideCount:[[_order objectAtIndex:_currentSlide] intValue]]-1;
     if(_currentSlide>=[_order count]-1&&_currentSubSlide>=maxSubSlide)
     {
@@ -148,7 +152,7 @@
 
 - (BOOL)unadvanceSlide
 {
-    if(_currentSlide<=0&&_currentSubSlide<=0)
+    if(blank||(_currentSlide<=0&&_currentSubSlide<=0))
     {
         return FALSE;
     }
@@ -198,8 +202,15 @@
 
 - (void)goToEnd
 {
-    _currentSlide=[_order count]-1;
-    _currentSubSlide=[self getSubSlideCount:[[_order objectAtIndex:_currentSlide] intValue]]-1;
+    if(blank)
+    {
+        [self goToBeginning];
+    }
+    else
+    {
+        _currentSlide=[_order count]-1;
+        _currentSubSlide=[self getSubSlideCount:[[_order objectAtIndex:_currentSlide] intValue]]-1;
+    }
 }
 
 + (NSString*)generateNewSetId
